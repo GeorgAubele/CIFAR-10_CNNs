@@ -116,7 +116,7 @@ def unpickle(folder, file):
     return dict
 
 
-def show_img(dict, num):
+def show_img(dict, i):
     """"zeigt das i-te Bild aus dem dictionary dict"""
     pic = np.array(dict[b"data"][i])
     pic = pic.reshape((3,32,32))
@@ -814,23 +814,19 @@ def show_image(image_path):
 
 
 def process_image(image_path):
-
     image = cv2.imread(image_path) # Bild einlesen
-
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Bild in das RGB-Farbformat konvertieren
-    
     normalized_image = rgb_image.astype('float32') / 255.0  # Bild in einen Float32-Array umwandeln und dann normalisieren
-
     reshaped_image = np.expand_dims(normalized_image, axis=0)  # Bild in die Shape des CIFAR-10-Datensatzes bringen
-    
     return reshaped_image
+
 
 def predict_image(image_path, model):
     img = process_image(image_path)
     prediction = model.predict(img)
     predicted_class = np.argmax(prediction)
-
     return predicted_class
+
 
 for image in images:
     image_con = os.path.join(image_path, image)
